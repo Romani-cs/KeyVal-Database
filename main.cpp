@@ -61,11 +61,51 @@ class KeyValueStore
 				cout << index[pos].value << endl;
 			}
 		}
+
+		void load()
+		{
+			ifstream file(filename);
+
+			if(!file.is_open())
+			{
+				return;
+			}
+
+			string line;
+
+			while(getline(file, line))
+			{
+				stringstream ss(line);
+				string command;
+				string key;
+				string value;
+
+				ss >> command >> key >> value;
+
+				if(command == "SET")
+				{
+					int pos = findKey(key);
+
+					if(pos == -1)
+					{
+						Entry e;
+						e.key = key;
+						e.value = value;
+						index.push_back(e);
+					}
+					else
+					{
+						index[pos].value = value;
+					}
+				}
+			}
+			file.close();
 };
 
 int main()
 {
 	KeyValueStore db;
+	db.load();
 	string line;
 
 	while (getline(cin, line))
