@@ -42,9 +42,25 @@ class KeyValueStore
 				index[pos].value = value;
 			}
 		}
+
+		void get(const string &key)
+		{
+			int pos = findKey(key);
+
+			if(pos == -1)
+			{
+				cout << "NULL" << endl;
+			}
+			else
+			{
+				cout << index[pos].value << endl;
+			}
+		}
 };
 
-int main(){
+int main()
+{
+	KeyValueStore db;
 	string line;
 
 	while (getline(cin, line))
@@ -56,11 +72,18 @@ int main(){
 
 		if(command == "SET")
 		{
-			cout << "SET command received" << endl;
+			string key;
+			string value;
+
+			ss >> key >> value;
+			db.set(key, value);
 		}
 		else if(command == "GET")
 		{
-			cout << "GET command received" << endl;
+			string key;
+			
+			ss >> key;
+			db.get(key);
 		}
 		else if(command == "EXIT")
 		{
