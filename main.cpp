@@ -16,7 +16,7 @@ class KeyValueStore
 		vector<Entry> index;
 		string filename = "data.db";
 	public:
-		int findKey(const string &key) 
+		int findKey(const string &key) // Searches the in memory index for a key using linear search and returns the index position if found, otherwise -1.
 		{
 			for(int i=0; i < index.size(); i++)
 			{
@@ -54,7 +54,7 @@ class KeyValueStore
 
 			if(pos == -1)
 			{
-				cout << "NULL" << endl;
+				cout << endl;
 			}
 			else
 			{
@@ -62,6 +62,7 @@ class KeyValueStore
 			}
 		}
 
+		// Loads the append only log from disk and rebuilds the index by replaying each SET command.
 		void load()
 		{
 			ifstream file(filename);
@@ -100,6 +101,7 @@ class KeyValueStore
 				}
 			}
 			file.close();
+		}
 };
 
 int main()
@@ -110,6 +112,10 @@ int main()
 
 	while (getline(cin, line))
 	{
+		if(line.empty())
+		{
+			continue;
+		}
 		stringstream ss(line);
 		string command;
 
