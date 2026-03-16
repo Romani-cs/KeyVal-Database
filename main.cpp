@@ -14,6 +14,7 @@ class KeyValueStore
 {
 	private:
 		vector<Entry> index;
+		string filename = "data.db";
 	public:
 		int findKey(const string &key) 
 		{
@@ -41,6 +42,10 @@ class KeyValueStore
 			{
 				index[pos].value = value;
 			}
+
+			ofstream file(filename, ios::app);
+			file << "SET " << key << " " << value << endl;
+			file.close();
 		}
 
 		void get(const string &key)
